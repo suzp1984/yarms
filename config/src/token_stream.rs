@@ -18,14 +18,14 @@ impl<'a> TokenStream<'a> {
     }
 
     pub fn next_token(&mut self) -> Token<'a> {
-        let mut tokenStart = self.buf.len();
+        let mut token_start = self.buf.len();
         while self.offset < self.buf.len() {
             let c = self.buf.chars().nth(self.offset).unwrap();
             // space
             match c {
                 ' ' | '\t' => {
-                    if tokenStart != self.buf.len() {
-                        let v = self.buf.get(tokenStart..self.offset).unwrap();
+                    if token_start != self.buf.len() {
+                        let v = self.buf.get(token_start..self.offset).unwrap();
                         self.offset += 1;
                         return Token::Val(v);
                     }
@@ -42,8 +42,8 @@ impl<'a> TokenStream<'a> {
                     }
                 }
                 ';' => {
-                    if tokenStart != self.buf.len() {
-                        let v = self.buf.get(tokenStart..self.offset).unwrap();
+                    if token_start != self.buf.len() {
+                        let v = self.buf.get(token_start..self.offset).unwrap();
                         return Token::Val(v);
                     }
                     self.offset += 1;
@@ -54,8 +54,8 @@ impl<'a> TokenStream<'a> {
                     return Token::LineEnd;
                 }
                 '{' => {
-                    if tokenStart != self.buf.len() {
-                        let v = self.buf.get(tokenStart..self.offset).unwrap();
+                    if token_start != self.buf.len() {
+                        let v = self.buf.get(token_start..self.offset).unwrap();
                         return Token::Val(v);
                     }
                     self.offset += 1;
@@ -66,8 +66,8 @@ impl<'a> TokenStream<'a> {
                     return Token::DirectiveBlockEnd;
                 }
                 _ => {
-                    if tokenStart == self.buf.len() {
-                        tokenStart = self.offset;
+                    if token_start == self.buf.len() {
+                        token_start = self.offset;
                     }
                 }
             }

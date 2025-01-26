@@ -18,7 +18,7 @@ impl<'a> Directive<'a> {
     }
 
     pub fn parse(&mut self, buf: &'a str) {
-        let mut token_stream = TokenStream::new(buf);
+        let token_stream = TokenStream::new(buf);
         let mut blocks: Vec<Directive> = vec![];
         let mut args = vec![];
 
